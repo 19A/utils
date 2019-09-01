@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>数组声明式方法</title>
+</head>
+
+<body>
+  <script>
+    /* 最下方的注释是教学的案例
+    简化自定义实现一组数组声明式方法
+      1. map()
+      2. reduce()
+      3. filter()
+      4. find()
+      5. findIndex()
+      6. every()
+      7. some()
+    */
+
+   
+    
+    //map的语法
+    /* var new_array = arr.map(function callback(currentValue[, index[, array]]) {
+    // Return element for new_array
+    }[, thisArg]) */
+    Array.prototype.map1=function(callback,thisArg){
+      const newArray=[]
+      this.forEach((item,index)=>{
+        newArray.push(callback(item))
+      })
+      return newArray
+    }
+    //对比校验
+    //  const arr = [1, 3, 6, 9, 15, 19, 16]
+    //  console.log(arr.map((item, index) => item + 10))
+    //console.log(arr.map1((item, index) => item + 10));
+
+
+    //reduce语法
+    /* arr.reduce(callback(accumulator, currentValue[, index[, array]])[, initialValue]) */
+    Array.prototype.reduce1=function(callback,initValue){
+      let result=initValue
+      for(var i=0;i<this.length;i++){
+        result=callback(result,this[i],i)
+      }
+      return result
+    }
+    //对比校验
+    /* var result1=[0, 1, 2, 3, 4].reduce((result,item,index)=>{
+      return result+item
+    },1)
+    console.log(result1); */
+
+    //filter的语法
+    //arr.filter(callback(item[,index]))
+      Array.prototype.filter1=function(callback){
+        const newArray=[];
+        for (let index = 0; index < this.length; index++) {
+          if(callback(this[index],index)){
+            newArray.push(this[index])
+          }
+        }
+        return newArray
+      }
+    //对比校验
+    // const arr = [1, 3, 6, 9, 15, 19, 16]
+    // console.log(arr.filter1((item, index) => item > 8 && index%2===1))
+
+    //find语法
+    //arr.find(callback(item[,index])[,thisArg])  thisArg----->执行回调时用作this 的对象。
+    Array.prototype.find1=function(callback){
+        const newArray=[];
+        for (let index = 0; index < this.length; index++) {
+          if(callback(this[index],index)){
+            return this[index]
+          }
+        }
+      }
+   //findIndex()方法返回数组中满足提供的测试函数的第一个元素的索引。否则返回-1。
+   //语法：arr.findIndex(callback(item[,index])[, thisArg])
+      Array.prototype.findIndex1=function(callback){
+        const newArray=[];
+        for (let index = 0; index < this.length; index++) {
+          if(callback(this[index],index)){
+            return index
+          }else{
+            return -1
+          }
+        }
+      }
+    //  const arr = [1, 3, 6]
+    //  console.log(arr.findIndex((item, index) => item > 8 && index%2===1))
+    //every() 方法测试一个数组内的所有元素是否都能通过某个指定函数的测试。它返回一个布尔值。
+       Array.prototype.every1=function(callback){
+        for (let index = 0; index < this.length; index++) {
+          if(!callback(this[index])){
+            return false
+          }
+        }return true
+      }
+      //  const arr = [1, 3, 6]
+       console.log([1, 3, 6].every1((item)=>{return item>-1}))
+      //  console.log([1, 3, 6].every(item=> item>-1))
+      Array.prototype.every1=function(callback){
+        for (let index = 0; index < this.length; index++) {
+          if(callback(this[index])){
+            return true
+          }
+        }return false
+      }
+    /* 实现map() */
+    // Array.prototype.map = function (callback) {
+    //   const arr = []
+    //   for (let index = 0; index < this.length; index++) {
+    //     arr.push(callback(this[index], index))
+    //   }
+    //   return arr
+    // }
+
+    
+
+    /* 实现reduce() */
+    // Array.prototype.reduce = function (callback, initValue) {
+    //   let result = initValue
+    //   for (let index = 0; index < this.length; index++) {
+    //     // 调用回调函数将返回的结果赋值给result
+    //     result = callback(result, this[index], index)
+    //   }
+    //   return result
+    // }
+
+    // console.log(arr.reduce((preTotal, item, index) => {
+    //   return preTotal + (item % 2 === 1 ? item : 0)
+    // }, 0))
+
+
+    /* 实现filter() */
+    // Array.prototype.filter = function (callback) {
+    //   const arr = []
+    //   for (let index = 0; index < this.length; index++) {
+    //     if (callback(this[index], index)) {
+    //       arr.push(this[index])
+    //     }
+    //   }
+    //   return arr
+    // }
+
+    // console.log(arr.filter((item, index) => item > 8 && index % 2 === 0))
+
+    /* 实现find() */
+    // Array.prototype.find = function (callback) {
+    //   for (let index = 0; index < this.length; index++) {
+    //     if (callback(this[index], index)) {
+    //       return this[index]
+    //     }
+    //   }
+    //   return undefined
+    // }
+
+    // console.log(arr.find((item, index) => item > 8 && index % 2 === 0))
+    // console.log(arr.find((item, index) => item > 80 && index % 2 === 0))
+
+
+    /* 实现findIndex() */
+    // Array.prototype.find = function (callback) {
+    //   for (let index = 0; index < this.length; index++) {
+    //     if (callback(this[index], index)) {
+    //       return index
+    //     }
+    //   }
+    //   return -1
+    // }
+    // console.log(arr.findIndex((item, index) => item > 8 && index % 2 === 0))
+    // console.log(arr.findIndex((item, index) => item > 80 && index % 2 === 0))
+
+    /* 实现every() */
+    // Array.prototype.every = function (callback) {
+    //   for (let index = 0; index < this.length; index++) {
+    //     if (!callback(this[index], index)) { // 只有一个结果为false, 直接返回false
+    //       return false
+    //     }
+    //   }
+    //   return true
+    // }
+
+
+    /* 实现some() */
+    // Array.prototype.every = function (callback) {
+    //   for (let index = 0; index < this.length; index++) {
+    //     if (callback(this[index], index)) { // 只有一个结果为true, 直接返回true
+    //       return true
+    //     }
+    //   }
+    //   return false
+    // }
+
+    // 所有偶数位下标的元素是否都为奇数
+    // console.log(arr.every((item, index) => index % 2 === 1 || item % 2 === 1))
+    // console.log(arr.some((item, index) => index % 2 === 1 || item % 2 === 1))
+  </script>
+</body>
+
+</html>
